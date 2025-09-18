@@ -1,7 +1,7 @@
 import random
 import asyncio
 import logging
-from turtle import delay
+# from turtle import delay
 from telethon import events
 from telethon.errors import FloodWaitError
 from bot.config import SOURCE_CHANNELS, TARGET_CHANNEL
