@@ -1,5 +1,7 @@
+import random
 import asyncio
 import logging
+from turtle import delay
 from telethon import events
 from telethon.errors import FloodWaitError
 from bot.config import SOURCE_CHANNELS, TARGET_CHANNEL
@@ -42,6 +44,10 @@ async def user_client_message_handler(event):
 
         # Apply light text rewriting
         final_caption = rewrite.light_rewrite(new_text)
+
+        # Wait for a random time between 2 and 5 seconds to act more human
+        delay = random.uniform(2, 5)
+        await asyncio.sleep(delay)
 
         # Forward the message
         if event.message.media:
