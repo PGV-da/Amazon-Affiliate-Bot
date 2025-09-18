@@ -7,9 +7,9 @@ from bot.client import send_error_alert
 from bot.utils import amazon, bitly, persistence, rewrite
 
 @events.register(events.NewMessage(chats=SOURCE_CHANNELS))
-async def forward_message(event):
+async def user_client_message_handler(event):
     """
-    The main handler for processing new messages from source channels.
+    Event handler for the user client to monitor non-admin channels.
     """
     try:
         text = event.message.message or ""
@@ -48,10 +48,10 @@ async def forward_message(event):
             await event.client.send_file(TARGET_CHANNEL, event.message.media, caption=final_caption)
         else:
             await event.client.send_message(TARGET_CHANNEL, final_caption)
-
+        
     except FloodWaitError as e:
-        logging.warning(f"Flood wait: sleeping for {e.seconds} seconds.")
+        logging.warning(f"User client flood wait: sleeping for {e.seconds} seconds.")
         await asyncio.sleep(e.seconds)
     except Exception as e:
-        logging.error(f"Handler error: {e}", exc_info=True)
-        await send_error_alert(f"An error occurred in the message handler: {e}")
+        logging.error(f"User client handler error: {e}", exc_info=True)
+        await send_error_alert(f"An error occurred in the user client message handler: {e}")

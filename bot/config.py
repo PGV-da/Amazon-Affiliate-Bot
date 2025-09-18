@@ -25,6 +25,7 @@ def get_env_var(name: str, required: bool = True, default=None, cast_to=str):
 API_ID: int = get_env_var("API_ID", cast_to=int)
 API_HASH: str = get_env_var("API_HASH")
 BOT_TOKEN: str = get_env_var("BOT_TOKEN")
+SESSION_STRING: str = get_env_var("SESSION_STRING")
 
 # --- Channel/User IDs ---
 SOURCE_CHANNELS_STR: str = get_env_var("SOURCE_CHANNELS")

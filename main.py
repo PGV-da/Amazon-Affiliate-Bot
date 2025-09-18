@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from bot.client import client, send_error_alert
+from bot.client import client, user_client, send_error_alert
 from bot.handlers import command_handler, message_handler
 from bot.webserver import start_web
 from bot.utils.bitly import close_session as close_bitly_session
@@ -12,15 +12,23 @@ async def main():
     """
     Main function to initialize and run the bot.
     """
-    # Register event handlers
+    # Register event handlers for the bot client
     client.add_event_handler(command_handler.start)
-    client.add_event_handler(message_handler.forward_message)
+    
+    # Register event handler for the user client
+    user_client.add_event_handler(message_handler.user_client_message_handler)
 
     # Start the webserver for uptime pings
     await start_web()
 
     logging.info("Bot started and ready.")
-    await client.run_until_disconnected()
+    
+    # Connect the user client and run both clients concurrently
+    await user_client.start()
+    await asyncio.gather(
+        client.run_until_disconnected(),
+        user_client.run_until_disconnected()
+    )
 
 if __name__ == "__main__":
     try:

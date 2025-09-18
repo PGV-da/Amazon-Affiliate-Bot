@@ -1,9 +1,13 @@
 import logging
 from telethon import TelegramClient
-from bot.config import API_ID, API_HASH, BOT_TOKEN, ALERT_USER_ID
+from telethon.sessions import StringSession
+from bot.config import API_ID, API_HASH, BOT_TOKEN, SESSION_STRING, ALERT_USER_ID
 
-# Initialize the Telegram client
+# Initialize the Telegram client (existing bot)
 client = TelegramClient("affiliate_bot", API_ID, API_HASH).start(bot_token=BOT_TOKEN)
+
+# Initialize the user client for monitoring non-admin channels
+user_client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 async def send_error_alert(text: str):
     """
