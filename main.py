@@ -149,7 +149,12 @@ async def send_error_alert(text):
     except Exception as e:
         print(f"Failed to send error alert: {e}")
 
-# ---------- Handler ----------
+# ---------- Handlers ----------
+@client.on(events.NewMessage(pattern='/start'))
+async def start(event):
+    """Handler for the /start command."""
+    await event.respond('Hi! I am alive and running.')
+
 @client.on(events.NewMessage(chats=source_channels))
 async def handler(event):
     try:
