@@ -51,9 +51,9 @@ async def user_client_message_handler(event):
 
         # Forward the message
         if event.message.media:
-            await event.client.send_file(TARGET_CHANNEL, event.message.media, caption=final_caption)
+            await event.client.send_file(TARGET_CHANNEL, event.message.media, caption=final_caption, link_preview=False)
         else:
-            await event.client.send_message(TARGET_CHANNEL, final_caption)
+            await event.client.send_message(TARGET_CHANNEL, final_caption, link_preview=False)
         
     except FloodWaitError as e:
         logging.warning(f"User client flood wait: sleeping for {e.seconds} seconds.")
